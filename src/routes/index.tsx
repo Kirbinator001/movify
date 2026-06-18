@@ -109,9 +109,6 @@ function Index() {
           <h3 className="text-2xl font-semibold">
             {query ? `Results for "${query}"` : "Popular now"}
           </h3>
-          <span className="text-sm text-muted-foreground">
-            {movies.length} {movies.length === 1 ? "movie" : "movies"}
-          </span>
         </div>
 
         {isLoading && (
