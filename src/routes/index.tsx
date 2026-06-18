@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Search, Star, Play } from "lucide-react";
+import { Search, Star, Play, ShoppingBag, MessageCircle, User } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -50,40 +50,61 @@ function Index() {
   });
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background text-foreground">
       {/* Header */}
-      <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <h1 className="text-2xl font-bold tracking-tight">
-            <span className="text-primary">●</span> movify
-          </h1>
-          <nav className="hidden md:flex items-center gap-8 text-sm text-muted-foreground">
-            <a className="hover:text-foreground transition" href="#">Home</a>
-            <a className="hover:text-foreground transition" href="#">Movies</a>
-            <a className="hover:text-foreground transition" href="#">TV Shows</a>
-            <a className="hover:text-foreground transition" href="#">Blog</a>
+      <header className="bg-white border-b border-border">
+        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+          <a href="/" className="flex items-center gap-2">
+            <MessageCircle className="w-7 h-7 text-primary fill-primary/10" strokeWidth={2.5} />
+            <span className="text-2xl font-bold text-primary tracking-tight">movify</span>
+          </a>
+          <nav className="hidden md:flex items-center gap-9 text-[15px] text-foreground/80">
+            <a className="hover:text-primary transition" href="#">Home</a>
+            <a className="hover:text-primary transition" href="#">Pages</a>
+            <a className="hover:text-primary transition" href="#">Movies & TV Shows</a>
+            <a className="hover:text-primary transition" href="#">Blog</a>
+            <a className="hover:text-primary transition" href="#">Contact Us</a>
           </nav>
+          <div className="flex items-center gap-5">
+            <button aria-label="Search" className="text-foreground/70 hover:text-primary"><Search className="w-5 h-5" /></button>
+            <button aria-label="Cart" className="relative text-foreground/70 hover:text-primary">
+              <ShoppingBag className="w-5 h-5" />
+              <span className="absolute -top-2 -right-2 w-4 h-4 rounded-full bg-primary text-[10px] text-primary-foreground flex items-center justify-center">2</span>
+            </button>
+            <button className="flex items-center gap-2 px-4 py-2 rounded-md border-2 border-primary text-primary text-sm font-semibold hover:bg-primary hover:text-primary-foreground transition">
+              <User className="w-4 h-4" /> LOGIN
+            </button>
+          </div>
         </div>
       </header>
 
       {/* Hero with search */}
       <section
-        className="relative py-24 px-6 text-center"
+        className="relative py-20 px-6"
         style={{ background: "var(--gradient-hero)" }}
       >
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-5xl md:text-6xl font-bold text-white mb-4 tracking-tight">
-            Discover your next favorite movie
-          </h2>
-          <p className="text-white/80 text-lg mb-10">
-            Search thousands of films powered by TMDB.
-          </p>
+        <div
+          className="absolute inset-0 opacity-25 mix-blend-overlay pointer-events-none"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle at 20% 30%, rgba(255,255,255,0.4) 0, transparent 35%), radial-gradient(circle at 80% 70%, rgba(255,255,255,0.3) 0, transparent 40%), radial-gradient(circle at 50% 50%, rgba(255,200,200,0.2) 0, transparent 60%)",
+          }}
+        />
+        <div className="relative max-w-7xl mx-auto">
+          <h1 className="text-5xl md:text-6xl font-semibold text-white tracking-tight">
+            Movie Grid
+          </h1>
+          <div className="mt-4 text-white/80 text-sm">
+            <a href="/" className="hover:text-white">Home</a>
+            <span className="mx-3 opacity-50">|</span>
+            <span>Discover</span>
+          </div>
           <form
             onSubmit={(e) => {
               e.preventDefault();
               setQuery(input);
             }}
-            className="relative max-w-2xl mx-auto"
+            className="relative max-w-2xl mt-10"
           >
             <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
             <input
@@ -91,13 +112,13 @@ function Index() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Search movies by keyword..."
-              className="w-full pl-14 pr-32 py-5 rounded-full bg-card text-foreground shadow-2xl outline-none focus:ring-4 focus:ring-primary/30"
+              className="w-full pl-14 pr-32 py-4 rounded-md bg-white text-foreground shadow-2xl outline-none focus:ring-4 focus:ring-white/30"
             />
             <button
               type="submit"
-              className="absolute right-2 top-1/2 -translate-y-1/2 px-6 py-3 rounded-full bg-primary text-primary-foreground font-medium hover:opacity-90 transition"
+              className="absolute right-1.5 top-1/2 -translate-y-1/2 px-6 py-2.5 rounded-md bg-primary text-primary-foreground text-sm font-semibold tracking-wide hover:opacity-90 transition"
             >
-              Search
+              SEARCH
             </button>
           </form>
         </div>
@@ -105,10 +126,18 @@ function Index() {
 
       {/* Results */}
       <main className="max-w-7xl mx-auto px-6 py-16">
-        <div className="flex items-baseline justify-between mb-8">
-          <h3 className="text-2xl font-semibold">
-            {query ? `Results for "${query}"` : "Popular now"}
-          </h3>
+        <div className="flex items-center justify-between mb-10">
+          <div className="flex items-center gap-2">
+            <button className="w-10 h-10 rounded grid place-items-center text-muted-foreground hover:text-primary border border-border" aria-label="List view">
+              <span className="flex flex-col gap-1"><span className="block w-4 h-0.5 bg-current" /><span className="block w-4 h-0.5 bg-current" /><span className="block w-4 h-0.5 bg-current" /></span>
+            </button>
+            <button className="w-10 h-10 rounded grid place-items-center bg-primary text-primary-foreground" aria-label="Grid view">
+              <span className="grid grid-cols-2 gap-0.5"><span className="w-1.5 h-1.5 bg-current" /><span className="w-1.5 h-1.5 bg-current" /><span className="w-1.5 h-1.5 bg-current" /><span className="w-1.5 h-1.5 bg-current" /></span>
+            </button>
+          </div>
+          <div className="px-5 py-2.5 rounded border border-border text-sm text-muted-foreground bg-card min-w-[180px]">
+            {query ? `Results: "${query}"` : "Default Order"}
+          </div>
         </div>
 
         {isLoading && (
@@ -127,14 +156,14 @@ function Index() {
           <p className="text-muted-foreground text-center py-12">No movies found.</p>
         )}
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {movies.map((m) => (
             <article
               key={m.id}
-              className="group rounded-2xl overflow-hidden bg-card border border-border hover:-translate-y-1 transition-transform"
+              className="group bg-card border border-border rounded-sm overflow-hidden hover:-translate-y-1 transition-transform"
               style={{ boxShadow: "var(--shadow-card)" }}
             >
-              <div className="relative aspect-[2/3] overflow-hidden bg-muted">
+              <div className="relative aspect-[3/4] overflow-hidden bg-muted">
                 {m.poster_path ? (
                   <img
                     src={`https://image.tmdb.org/t/p/w500${m.poster_path}`}
@@ -147,25 +176,29 @@ function Index() {
                     No image
                   </div>
                 )}
-                <button className="absolute bottom-4 right-4 w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 transition">
-                  <Play className="w-5 h-5 fill-current" />
+                <button className="absolute -bottom-6 right-6 w-14 h-14 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-xl hover:scale-110 transition z-10">
+                  <Play className="w-5 h-5 fill-current ml-0.5" />
                 </button>
               </div>
-              <div className="p-5">
-                <h4 className="font-semibold text-lg mb-2 line-clamp-1">{m.title}</h4>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
-                  <Star className="w-4 h-4 fill-accent text-accent" />
-                  <span>{m.vote_average.toFixed(1)}/10</span>
-                  {m.release_date && (
-                    <>
-                      <span>·</span>
-                      <span>{m.release_date.slice(0, 4)}</span>
-                    </>
-                  )}
+              <div className="p-6 pt-7">
+                <div className="flex items-start justify-between gap-3 mb-3">
+                  <h4 className="font-semibold text-xl text-foreground line-clamp-1">{m.title}</h4>
                 </div>
-                <p className="text-sm text-muted-foreground line-clamp-3">
+                <div className="flex items-center justify-between text-sm mb-4">
+                  <div className="flex items-center gap-1.5 text-muted-foreground">
+                    <Star className="w-4 h-4 fill-accent text-accent" />
+                    <span>{m.vote_average.toFixed(1)}/10</span>
+                  </div>
+                  <span className="text-muted-foreground">
+                    {m.release_date ? m.release_date.slice(0, 4) : "—"}
+                  </span>
+                </div>
+                <p className="text-sm text-muted-foreground line-clamp-3 mb-5 leading-relaxed">
                   {m.overview || "No description available."}
                 </p>
+                <button className="px-5 py-2 rounded-sm bg-primary text-primary-foreground text-xs font-bold tracking-widest hover:opacity-90 transition">
+                  DETAILS
+                </button>
               </div>
             </article>
           ))}
