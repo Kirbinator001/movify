@@ -3,9 +3,6 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Search, Star, Play, ShoppingBag, MessageCircle, User } from "lucide-react";
 
-const TMDB_TOKEN =
-  "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMWY2OGE2YzFlMzM0MTIyZjEzMWM4ZTliZjc2MzViMSIsIm5iZiI6MTc4MTc2NDAzMi44MzM5OTk5LCJzdWIiOiI2YTMzOGZjMDdlNGQxNGIwMGFlNmU1YzYiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.ftNSX6YPUG0eLJLaRZFgmwIhrTyMMTPgsrP8sIsrVUg";
-
 type Movie = {
   id: number;
   title: string;
@@ -16,15 +13,21 @@ type Movie = {
   release_date: string;
 };
 
+const TMDB_READ_ACESS_TOKEN = process.env.TMDB_READ_ACESS_TOKEN;
+
 async function fetchMovies(query: string): Promise<Movie[]> {
   const url = query.trim()
     ? `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(query)}&include_adult=false&language=en-US&page=1`
     : `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc`;
+
   const res = await fetch(url, {
-    headers: { Authorization: `Bearer ${TMDB_TOKEN}`, accept: "application/json" },
+    headers: { Authorization: `Bearer ${TMDB_READ_ACESS_TOKEN}`, accept: "application/json" },
   });
+
   if (!res.ok) throw new Error("Failed to fetch movies");
+
   const data = await res.json();
+
   return data.results ?? [];
 }
 
