@@ -1,19 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
+"use client";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Search, Star, Play, ShoppingBag, MessageCircle, User } from "lucide-react";
-
-export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Movify — Discover Movies" },
-      { name: "description", content: "Search and discover movies powered by TMDB." },
-      { property: "og:title", content: "Movify — Discover Movies" },
-      { property: "og:description", content: "Search and discover movies powered by TMDB." },
-    ],
-  }),
-  component: Index,
-});
 
 const TMDB_TOKEN =
   "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMWY2OGE2YzFlMzM0MTIyZjEzMWM4ZTliZjc2MzViMSIsIm5iZiI6MTc4MTc2NDAzMi44MzM5OTk5LCJzdWIiOiI2YTMzOGZjMDdlNGQxNGIwMGFlNmU1YzYiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.ftNSX6YPUG0eLJLaRZFgmwIhrTyMMTPgsrP8sIsrVUg";
@@ -40,11 +28,15 @@ async function fetchMovies(query: string): Promise<Movie[]> {
   return data.results ?? [];
 }
 
-function Index() {
+export function HomeClient() {
   const [input, setInput] = useState("");
   const [query, setQuery] = useState("");
 
-  const { data: movies = [], isLoading, isError } = useQuery({
+  const {
+    data: movies = [],
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ["movies", query],
     queryFn: () => fetchMovies(query),
   });
@@ -59,17 +51,31 @@ function Index() {
             <span className="text-2xl font-bold text-primary tracking-tight">movify</span>
           </a>
           <nav className="hidden md:flex items-center gap-9 text-[15px] text-foreground/80">
-            <a className="hover:text-primary transition" href="#">Home</a>
-            <a className="hover:text-primary transition" href="#">Pages</a>
-            <a className="hover:text-primary transition" href="#">Movies & TV Shows</a>
-            <a className="hover:text-primary transition" href="#">Blog</a>
-            <a className="hover:text-primary transition" href="#">Contact Us</a>
+            <a className="hover:text-primary transition" href="#">
+              Home
+            </a>
+            <a className="hover:text-primary transition" href="#">
+              Pages
+            </a>
+            <a className="hover:text-primary transition" href="#">
+              Movies & TV Shows
+            </a>
+            <a className="hover:text-primary transition" href="#">
+              Blog
+            </a>
+            <a className="hover:text-primary transition" href="#">
+              Contact Us
+            </a>
           </nav>
           <div className="flex items-center gap-5">
-            <button aria-label="Search" className="text-foreground/70 hover:text-primary"><Search className="w-5 h-5" /></button>
+            <button aria-label="Search" className="text-foreground/70 hover:text-primary">
+              <Search className="w-5 h-5" />
+            </button>
             <button aria-label="Cart" className="relative text-foreground/70 hover:text-primary">
               <ShoppingBag className="w-5 h-5" />
-              <span className="absolute -top-2 -right-2 w-4 h-4 rounded-full bg-primary text-[10px] text-primary-foreground flex items-center justify-center">2</span>
+              <span className="absolute -top-2 -right-2 w-4 h-4 rounded-full bg-primary text-[10px] text-primary-foreground flex items-center justify-center">
+                2
+              </span>
             </button>
             <button className="flex items-center gap-2 px-4 py-2 rounded-md border-2 border-primary text-primary text-sm font-semibold hover:bg-primary hover:text-primary-foreground transition">
               <User className="w-4 h-4" /> LOGIN
@@ -79,10 +85,7 @@ function Index() {
       </header>
 
       {/* Hero with search */}
-      <section
-        className="relative py-20 px-6"
-        style={{ background: "var(--gradient-hero)" }}
-      >
+      <section className="relative py-20 px-6" style={{ background: "var(--gradient-hero)" }}>
         <div
           className="absolute inset-0 opacity-25 mix-blend-overlay pointer-events-none"
           style={{
@@ -95,7 +98,9 @@ function Index() {
             Movie Grid
           </h1>
           <div className="mt-4 text-white/80 text-sm">
-            <a href="/" className="hover:text-white">Home</a>
+            <a href="/" className="hover:text-white">
+              Home
+            </a>
             <span className="mx-3 opacity-50">|</span>
             <span>Discover</span>
           </div>
@@ -128,11 +133,26 @@ function Index() {
       <main className="max-w-7xl mx-auto px-6 py-16">
         <div className="flex items-center justify-between mb-10">
           <div className="flex items-center gap-2">
-            <button className="w-10 h-10 rounded grid place-items-center text-muted-foreground hover:text-primary border border-border" aria-label="List view">
-              <span className="flex flex-col gap-1"><span className="block w-4 h-0.5 bg-current" /><span className="block w-4 h-0.5 bg-current" /><span className="block w-4 h-0.5 bg-current" /></span>
+            <button
+              className="w-10 h-10 rounded grid place-items-center text-muted-foreground hover:text-primary border border-border"
+              aria-label="List view"
+            >
+              <span className="flex flex-col gap-1">
+                <span className="block w-4 h-0.5 bg-current" />
+                <span className="block w-4 h-0.5 bg-current" />
+                <span className="block w-4 h-0.5 bg-current" />
+              </span>
             </button>
-            <button className="w-10 h-10 rounded grid place-items-center bg-primary text-primary-foreground" aria-label="Grid view">
-              <span className="grid grid-cols-2 gap-0.5"><span className="w-1.5 h-1.5 bg-current" /><span className="w-1.5 h-1.5 bg-current" /><span className="w-1.5 h-1.5 bg-current" /><span className="w-1.5 h-1.5 bg-current" /></span>
+            <button
+              className="w-10 h-10 rounded grid place-items-center bg-primary text-primary-foreground"
+              aria-label="Grid view"
+            >
+              <span className="grid grid-cols-2 gap-0.5">
+                <span className="w-1.5 h-1.5 bg-current" />
+                <span className="w-1.5 h-1.5 bg-current" />
+                <span className="w-1.5 h-1.5 bg-current" />
+                <span className="w-1.5 h-1.5 bg-current" />
+              </span>
             </button>
           </div>
           <div className="px-5 py-2.5 rounded border border-border text-sm text-muted-foreground bg-card min-w-[180px]">
